@@ -1,0 +1,67 @@
+<body>
+    <!-- https://blog.csdn.net/mapbar_front/article/details/80494623 -->
+    <div class="flex-box">
+        <span class="flex1 center route">home</span>
+        <span class="flex1 center route">shop</span>
+        <span class="flex1 center route">shopcar</span>
+        <span class="flex1 center route">usercenter</span>
+    </div>
+    <div id="root"></div>
+</body>
+
+<script>
+    //路由配置
+    const routes=[{
+        path:'/0',
+        template:"<div>Home View</div>"
+    },{
+        path:'/1',
+        template:"<div>Shop View</div>"
+    },{
+        path:'/2',
+        template:"<div>Shopcar View</div>"
+    },{
+        path:'/3',
+        template:"<div>User Center View</div>"
+    },];
+    //基本实现
+    let mount = document.getElementById('root');
+    console.log(mount)
+    let list = document.getElementsByClassName("route");
+    console.log(list)
+    //每个节点添加onclick事件属性
+    for(let i=0; i<list.length; i++){
+        list[i].onclick=(function(i){
+            return function(){
+                window.location.hash=`/${i}`;
+            }
+        })(i)
+    }
+    //监听hash变化
+    window.addEventListener("hashchange",function(e){
+        console.log(e,"e")
+        let path = e.newURL.split('#')[1];
+        let item = routes.find((item)=>{return item.path==path})
+
+        mount.innerHTML=item.template;
+    })
+
+
+
+
+</script>
+<style>
+    .flex-box{
+        display: flex;
+        height: 100px;
+    }
+    .flex1{      
+        border:1px solid skyblue;
+        flex:1;
+    }
+    .center{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>

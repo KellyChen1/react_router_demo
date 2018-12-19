@@ -1,0 +1,157 @@
+<body>
+    <div class="container">
+        <!-- LINK -->
+        <ul>
+            <li><a href="#/">Homepage</a></li>
+            <li><a href="#/product">Product</a></li>
+            <li><a href="#/service">Service</a></li>
+        </ul>
+
+        <!-- DISPLAY -->
+        <div id="home-page" class="content">
+            <div> this is home page</div>
+            <a class="back" href="#/">back</a>
+        </div>
+        <div id="product-page" class="content">
+            <div>this is product page</div>
+            <a class="back" href="#/">back</a>
+        </div>
+        <div id="service-page" class="content">
+            <div>this is service page</div>
+            <a class="back" href="#/">back</a>
+        </div>
+
+    </div>
+</body>
+<script>
+    //路由构造器
+    function Router() {
+        //配置所有路由：锚&函数方法
+        this.routes = {};
+        //改变后的hash
+        this.curUrl = "";
+        // STEP2
+        //将所有定义的路由添加到routes
+        this.route = function (path, callback) {
+            this.routes[path] = callback || function () {
+                console.log('routes[path]:' + this.routes[path])
+            }
+        };
+        //STEP3
+        this.refresh = function () {
+            //获取#后面的内容
+            this.curUrl = location.hash.slice(1) || '/';
+            try {
+                this.routes[this.curUrl]();
+
+            } catch (e) {
+                alert('请输入合法路由')
+            }
+            console.log('location.hash:' + location.hash);
+            console.log('curUrl:' + this.curUrl);
+        }
+        //STEP1
+        this.init = function () {
+            //监听加载url，hash改变的事件
+            window.addEventListener('load', this.refresh.bind(this), false);
+            window.addEventListener('hashchange', this.refresh.bind(this), false);
+            //可以优化换成下面的
+            // var that = this;
+            // if (window.addEventListener) { 
+            //     window.addEventListener("load",function(){that.refresh();},false);
+            //     if ( "onhashchange" in window.document.body ) { 
+            //         window.addEventListener("hashchange",function(){that.refresh();},false)  
+            //     }else{
+            //         onhashchange_compatibility(that);
+            //     }
+            // } else if (window.attachEvent) { //ie低版本兼容
+            //     window.attachEvent("onload",function(){that.refresh();},false);
+            //     window.attachEvent("onhashchange",function(){that.refresh();},false)
+            //     onhashchange_compatibility(that);
+            // }  
+            //bind()函数IE8以下不支持
+            // window.addEventListener('load',this.refresh.bind(this),false);
+            // window.addEventListener('hashchange',this.refresh.bind(this),false);
+
+        }
+    }
+
+    //自定义路由更新时的回调函数
+    function display_page(id) {
+        var el = document.getElementsByClassName("content");
+        for (var i = 0; i < el.length; i++) {
+            el[i].style.display = "none";
+        }
+        el[id].style.display = "block";
+    }
+
+    var R = new Router();
+    R.init();
+    // let res = document.getElementById('result');
+    R.route('/', function () {
+        display_page(0);
+        // res.style.background = 'antiquewhite';
+        // res.innerHTML = "it is home page";
+    })
+    R.route('/product', function () {
+        display_page(1);
+        // res.style.background = 'antiquewhite';
+        // res.innerHTML = "it is product page";
+    })
+    R.route('/service', function () {
+        display_page(2);
+        // res.style.background = 'antiquewhite';
+        // res.innerHTML = "it is service page";
+    })
+    console.log(R.routes, "route")
+
+</script>
+<style>
+    body,
+    ul,
+    li {
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        display: flex;
+
+    }
+
+    ul {
+        float: left;
+        width: 200px;
+        height: 200px;
+        line-height: 51px;
+    }
+
+    li {
+        list-style: none;
+        padding: 8px 15px;
+        background: #b9cbf7;
+        text-align: center;
+    }
+
+    a {
+        color: #000;
+    }
+
+    .content {
+        height: 200px;
+        /* margin-left:200px; */
+        line-height: 200px;
+        font-size: 30px;
+        text-align: center;
+        color: #d64bd3;
+        flex: 1;
+        background: antiquewhite;
+    }
+
+    .back {
+        position: absolute;
+        top: 73px;
+        right: 10px;
+        font-size: 19px;
+    }
+</style>

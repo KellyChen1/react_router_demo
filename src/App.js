@@ -1,26 +1,20 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-
+import ParamsExample from "./route/router-param";
+import RouteChildren from "./route/router_children";
+import NestedRouter from "./route/nested_route";
+import PrimaryHeader from "./route/navLink"
+import MathPathUrl from "./route/match_path_url"
+import WithRouterExample from './route/withRouter'
+import WithRouterExample2 from './route/withRouter2'
+import RenderVsComponent from './route/route_render_component'
+// import {BrowserRouter} from 'react-router-dom';
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <RouteChildren/>
+      
     );
   }
 }
